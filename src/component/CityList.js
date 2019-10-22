@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Chart from 'react-google-charts';
 
 function generateHTMLOutput(response) {
-   /*
-   *This function converts data of cities into a list
-   */
+   /**
+    * This function converts data of cities into a list 
+    */
    var table = []
 
    for (let interval = response.length - 1; interval > -1; interval--) {
@@ -19,16 +19,15 @@ function convert_kelvin_to_centigrade(temp) {
    return temp - 273
 }
 
-function remove_year_and_seconds(str)
-{
-   return str.substr(5,11)
+function remove_year_and_seconds(str) {
+   return str.substr(5, 11)
 }
 
 class City extends React.Component {
-   /*
-   *This component display the charts for a single city.
-   */
-
+   /**
+    * This component display the charts for a single city.
+    * 
+    */
    render() {
       var temperatureData = [
          [
@@ -49,18 +48,16 @@ class City extends React.Component {
          ]
       ]
       var date, temperature, pressure, humidity
-      var total_intervals=this.props.data.list.length
+      var total_intervals = this.props.data.list.length
       for (let interval = 0; interval < total_intervals; interval++) {
+         //extracting data from JSON
          date = this.props.data.list[interval]['dt_txt']
-         //compiling data for graphs
          temperature = this.props.data.list[interval]['main']['temp']
          pressure = this.props.data.list[interval]['main']['pressure']
          humidity = this.props.data.list[interval]['main']['humidity']
-
-
-
-         var temperature_in_centigrade=convert_kelvin_to_centigrade(temperature)
-         date=remove_year_and_seconds(date)
+         var temperature_in_centigrade = convert_kelvin_to_centigrade(temperature)
+         date = remove_year_and_seconds(date)
+         //compiling data for graphs
          temperatureData.push([date, temperature_in_centigrade])
          pressureData.push([date, pressure])
          humidityData.push([date, humidity])
@@ -114,9 +111,9 @@ class City extends React.Component {
 
 
 class ListOfCities extends Component {
-   /*
-   *This component displays a list of cities
-   */
+   /**
+    * This component displays a list of cities 
+    */
    render() {
       const { list, getRequest } = this.props;
       return (
