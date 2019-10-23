@@ -29,39 +29,30 @@ class City extends React.Component {
     * 
     */
    render() {
-      var temperatureData = [
+      var temperature_data = this.props.data.list.map(x => [remove_year_and_seconds(x['dt_txt']),
+      convert_kelvin_to_centigrade(x['main']['temp'])])
+      temperature_data = [
          [
             'Day',
             'Temperature'
          ]
-      ]
-      var pressureData = [
+      ].concat(temperature_data)
+      var pressure_data = this.props.data.list.map(x => [remove_year_and_seconds(x['dt_txt']),
+      x['main']['pressure']])
+      pressure_data = [
          [
             'Day',
             'Pressure'
          ]
-      ]
-      var humidityData = [
+      ].concat(pressure_data)
+      var humidity_data = this.props.data.list.map(x => [remove_year_and_seconds(x['dt_txt']),
+      x['main']['humidity']])
+      humidity_data = [
          [
             'Day',
-            'Humidity',
+            'Temperature'
          ]
-      ]
-      var date, temperature, pressure, humidity
-      var total_intervals = this.props.data.list.length
-      for (let interval = 0; interval < total_intervals; interval++) {
-         //extracting data from JSON
-         date = this.props.data.list[interval]['dt_txt']
-         temperature = this.props.data.list[interval]['main']['temp']
-         pressure = this.props.data.list[interval]['main']['pressure']
-         humidity = this.props.data.list[interval]['main']['humidity']
-         var temperature_in_centigrade = convert_kelvin_to_centigrade(temperature)
-         date = remove_year_and_seconds(date)
-         //compiling data for graphs
-         temperatureData.push([date, temperature_in_centigrade])
-         pressureData.push([date, pressure])
-         humidityData.push([date, humidity])
-      }
+      ].concat(humidity_data)
       return (<div>
          <h1>{JSON.stringify(this.props.data.city.name)}</h1>
          <div>
@@ -70,7 +61,7 @@ class City extends React.Component {
                height={600}
                chartType="Line"
                loader={<div>Loading Chart</div>}
-               data={temperatureData}
+               data={temperature_data}
                options={{
                   chart: {
                      title: 'Temperature',
@@ -83,7 +74,7 @@ class City extends React.Component {
                height={600}
                chartType="Line"
                loader={<div>Loading Chart</div>}
-               data={pressureData}
+               data={pressure_data}
                options={{
                   chart: {
                      title: 'Pressure',
@@ -96,7 +87,7 @@ class City extends React.Component {
                height={600}
                chartType="Line"
                loader={<div>Loading Chart</div>}
-               data={humidityData}
+               data={humidity_data}
                options={{
                   chart: {
                      title: 'Humidity',

@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      getRequest: () => dispatch(search()) //event is mapped to dispatch function
+      getRequest: () => dispatch(search())//event is mapped to dispatch function
    };
 };
 
